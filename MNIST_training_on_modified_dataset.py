@@ -16,22 +16,22 @@ mnist_dataset_test = pd.read_csv('mnist_dataset/mnist_train.csv')
 # Load different datasets of the 15 corrupted versions of MNIST from the MNIST-C dataset
 
 
-# # brightness corrupted version
+# brightness corrupted version
 
-# X_bright_c = np.load('mnist_c/brightness/train_images.npy')
-# Y_bright_c = np.load('mnist_c/brightness/train_labels.npy')
+X_bright_c = np.load('mnist_c/brightness/train_images.npy')
+Y_bright_c = np.load('mnist_c/brightness/train_labels.npy')
 
-# #reshape
-# X_bright_c = X_bright_c.reshape(60000, 784)
+#reshape
+X_bright_c = X_bright_c.reshape(60000, 784)
 
-# print(f'X brightness corrupted dataset shape: {X_bright_c.shape}')
-# print(f'Y brightness corrupted dataset shape: {Y_bright_c.shape}')
+print(f'X brightness corrupted dataset shape: {X_bright_c.shape}')
+print(f'Y brightness corrupted dataset shape: {Y_bright_c.shape}')
 
-# #plot first sample
-# # plt.imshow(X_bright_c[0].reshape(28,28), cmap='gray')
-# # plt.axis('off')
-# # plt.title('brightness')
-# # plt.show()
+#plot first sample
+# plt.imshow(X_bright_c[0].reshape(28,28), cmap='gray')
+# plt.axis('off')
+# plt.title('brightness')
+# plt.show()
 
 
 
@@ -426,33 +426,46 @@ y = y.to_numpy()
 
 
 #Change batch sizes if needed
-X_rotate_c = X_rotate_c[:60000]
-Y_rotate_c = Y_rotate_c[:60000]
+X_rotate_c = X_rotate_c[50000:60000]
+Y_rotate_c = Y_rotate_c[50000:60000]
+
+
+#Change batch sizes if needed
+X_bright_c = X_bright_c[2000:4000]
+Y_bright_c = Y_bright_c[2000:4000]
 
 
 #Normalize the X values
 # X_modified = X_modified / 255.0
 X = X / 255.0
 X_rotate_c = X_rotate_c / 255.0
+X_bright_c = X_bright_c / 255.0
 
 
+
+
+
+
+
+
+# dataset to use in training
+# X_to_use = X_rotate_c
+# Y_to_use = Y_rotate_c
+X_to_use = X_bright_c
+Y_to_use = Y_bright_c
 
 # Final shapes to use for training
 print("Final x.shape")
-print(X_rotate_c.shape)
+print(X_to_use.shape)
 print("Final y.shape")
-print(Y_rotate_c.shape)
+print(Y_to_use.shape)
 
 #train the model
 print("\nTRAINING\n")
 
 
 
-
-
-
-
-epochs = 10
+epochs = 5
 learning_rate = 0.000005
 
 
@@ -463,7 +476,7 @@ for i in range(epochs):
     # print(len(X))
 
     #calculate predictions on each m example
-    for x_sample, y_true in zip(X_rotate_c, Y_rotate_c):
+    for x_sample, y_true in zip(X_to_use, Y_to_use):
         
         # FORWARD PROP
         #initiliaze output values with the m sample from the x tranining data
@@ -512,7 +525,7 @@ for i in range(epochs):
 
         # VISUALIZE EACH PREDICTION
 
-        # Pick one sample
+        # # Pick one sample
         # image = x_sample.reshape(28, 28)  # reshape the flat image
 
         # # Plot corrected sample
@@ -567,8 +580,8 @@ for i in range(epochs):
         
 
 
-    average_loss = error / len(X_rotate_c)
-    accuracy = correct_predictions / len(X_rotate_c)
+    average_loss = error / len(X_to_use)
+    accuracy = correct_predictions / len(X_to_use)
     print(f"\nEpochs: {i+1}, Loss = {error:.4f}, Accuracy = {accuracy:.4f}\n")
 
 # Code to save weights and biases after training
