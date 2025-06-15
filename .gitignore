@@ -1,0 +1,17 @@
+*.csv
+
+# Python bytecode and cache
+__pycache__/
+*.py[cod]
+
+# VS Code specific temporary file
+tempCodeRunnerFile.py
+
+# VS Code settings (optional but common)
+.vscode/
+
+mnist_c
+mnist_dataset
+
+values_old_best_3layers
+
