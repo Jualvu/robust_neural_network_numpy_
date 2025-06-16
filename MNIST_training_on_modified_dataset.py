@@ -394,8 +394,8 @@ layers= [
 
 
 
-X = X.to_numpy()
-y = y.to_numpy()
+X_Original = X.to_numpy()
+Y_Original = y.to_numpy()
 
 
 
@@ -426,18 +426,23 @@ y = y.to_numpy()
 
 
 #Change batch sizes if needed
-X_rotate_c = X_rotate_c[50000:60000]
-Y_rotate_c = Y_rotate_c[50000:60000]
+X_rotate_c = X_rotate_c[:]
+Y_rotate_c = Y_rotate_c[:]
 
 
 #Change batch sizes if needed
-X_bright_c = X_bright_c[2000:4000]
-Y_bright_c = Y_bright_c[2000:4000]
+X_bright_c = X_bright_c[:]
+Y_bright_c = Y_bright_c[:]
+
+
+#Change batch sizes if needed
+X_Original = X_Original[:]
+Y_Original = Y_Original[:]
 
 
 #Normalize the X values
 # X_modified = X_modified / 255.0
-X = X / 255.0
+X_Original = X_Original / 255.0
 X_rotate_c = X_rotate_c / 255.0
 X_bright_c = X_bright_c / 255.0
 
@@ -449,10 +454,12 @@ X_bright_c = X_bright_c / 255.0
 
 
 # dataset to use in training
-# X_to_use = X_rotate_c
-# Y_to_use = Y_rotate_c
-X_to_use = X_bright_c
-Y_to_use = Y_bright_c
+X_to_use = X_rotate_c
+Y_to_use = Y_rotate_c
+# X_to_use = X_Original
+# Y_to_use = Y_Original
+# X_to_use = X_Original
+# Y_to_use = Y_Original
 
 # Final shapes to use for training
 print("Final x.shape")
@@ -466,7 +473,7 @@ print("\nTRAINING\n")
 
 
 epochs = 5
-learning_rate = 0.000005
+learning_rate = 0.0000005
 
 
 for i in range(epochs):
